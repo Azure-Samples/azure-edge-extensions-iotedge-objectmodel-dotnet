@@ -1,0 +1,35 @@
+﻿stages:
+  - stage: Build
+    jobs:
+      - job: Build
+        steps:
+          - task: UseDotNet@2
+            displayName: Use .NET 6 SDK
+            inputs:
+              version: 6.0.x
+
+          - task: DotNetCoreCLI@2
+            displayName: dotnet restore
+            inputs:
+              command: restore
+              projects: $(ProjectPath)
+
+          - task: DotNetCoreCLI@2
+            displayName: dotnet build
+            inputs:
+              command: build
+              projects: $(ProjectPath)
+              arguments: --configuration $(BuildConfiguration) /WarnAsError
+
+          - task: DotNetCoreCLI@2
+            displayName: dotnet publish
+            inputs:
+              command: publish
+              projects: $(ProjectPath)
+              publishWebProjects: false
+              zipAfterPublish: true
+              arguments: --configuration $(BuildConfiguration) --output $(PublishPath)
+
+          - publish: $(PublishPath)
+            artifact: $(ArtifactName)
+            displayName: Publish artifact

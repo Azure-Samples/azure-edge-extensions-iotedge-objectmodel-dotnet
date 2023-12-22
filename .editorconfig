@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# SA1027: Use tabs correctly
+dotnet_diagnostic.SA1027.severity = none

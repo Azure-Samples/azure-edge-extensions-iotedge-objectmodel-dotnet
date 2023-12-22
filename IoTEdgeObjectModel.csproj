@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>IoTEdgeObjectModel</PackageId>
+    <Version>1.1.4</Version>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Description>This library provides extensions methods of azure-iot-sdk  to support the following scenarios:
+
+
+
+Instantiate a new deployment manifest with default EdgeAgent and EdgeHub values (e.g. create options, restart policy, et. al.).
+Extract IoT Edge module status (e.g. last updated time, exit code) from $EdgeAgent and $EdgeHub module twin reported properties.</Description>
+    <Copyright>huanjisun</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>iotedge</PackageTags>
+    <PackageReleaseNotes>Add new features:
+    Clone an At-Scale deployment.
+    Extract a deployment manifest from $EdgeAgent and $EdgeHub module twin desired properties.</PackageReleaseNotes>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="licenses\LICENSE.txt" Pack="true" PackagePath="" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Devices" Version="1.37.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="StyleCop.Analyzers" />
+    <None Remove="pipelines\" />
+    <None Remove="src\" />
+    <None Remove="src\Enums\" />
+    <None Remove="src\Extensions\" />
+    <None Remove="src\Models\" />
+    <None Remove="samples\" />
+    <None Remove="licenses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="src\" />
+    <Folder Include="src\Enums\" />
+    <Folder Include="src\Extensions\" />
+    <Folder Include="src\Models\" />
+    <Folder Include="licenses\" />
+  </ItemGroup>
+</Project>

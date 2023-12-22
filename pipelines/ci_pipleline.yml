@@ -1,0 +1,18 @@
+﻿trigger: none
+
+pool:
+  vmImage: windows-2022 # See all type of vm images https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/hosted?view=azure-devops&tabs=yaml#software
+
+variables:
+  - name: BuildConfiguration
+    value: Release
+  - name: ProjectPath
+    value: $(Build.SourcesDirectory)/src/IoTEdgeObjectModel.csproj
+  - name: PublishPath
+    value: $(Build.SourcesDirectory)/publish
+  - name: ArtifactName
+    value: IoTEdgeObjectModelBuildOutputs
+
+stages:
+  - template: build_template.yml
+

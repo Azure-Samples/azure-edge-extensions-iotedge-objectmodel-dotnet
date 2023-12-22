@@ -1,0 +1,46 @@
+name: Main Branch CI
+on: 
+  push:
+    branches: 
+      - main
+  
+jobs:
+  Build-Code:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - name: Install GitVersion
+      uses: gittools/actions/gitversion/setup@v0.9.7
+      with:
+        versionSpec: '5.x'
+    - name: Determine Version
+      uses: gittools/actions/gitversion/execute@v0.9.7
+      with:
+        useConfigFile: true
+    - name: Display SemVer
+      run: |
+        echo "SemVer: $GITVERSION_SEMVER"
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Display SemVer
+      run: |
+        echo "SemVer: $GITVERSION_SEMVER NugetVersion: $GITVERSION_NUGETVERSION"
+    - name: DotNet Pack
+      run: dotnet pack -p:PackageVersion=$GITVERSION_MAJORMINORPATCH
+    - name: Nuget Publish
+      run: dotnet nuget push **\*.nupkg --source 'https://api.nuget.org/v3/index.json' --api-key ${{secrets.NUGET}}
+    - name: Create git tag
+      run: |
+        git tag $GITVERSION_MAJORMINORPATCH
+      if: github.ref == 'refs/heads/main'
+    - name: Push git tag
+      run: git push origin $GITVERSION_MAJORMINORPATCH
+      if: github.ref == 'refs/heads/main'
